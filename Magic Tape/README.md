@@ -1,0 +1,18 @@
+	Daca din fisier se primeste comanda EXECUTE si sunt existente in coada comenzi, atunci se ia prima comanda de la sfarsitul cozii
+prin functia "EXTRAGERE_COADA" si se verifica instructiunea din coada  pentru a vedea ce comanda trebuie aplicata.
+	-->Daca este comanda MOVE_LEFT atunci se aplica mai intai "ACTUALIZARE_BANDA", apoi functia "MOVE_LEFT" in care la inceput se aplica comanda "ADAUGARE_ADRESE_STIVE" ce adauga mai intai in stiva de UNDO adresa degetului curent (inainte de modificare), iar apoi daca functia de move left NU face nicio modificare asupra degetului (a ajuns in prtea stanga si nu mai are unde sa se duca), atunci se aplica comanda "EXTRAGERE_STIVA", care elibereaza ultima celula adaugata (aflata pe prima pozitie).
+	-->Daca avem comanda MOVE_RIGHT aplicam mai intai ACTUALIZARE_BANDA, apoi retinerea degetului prin comanda "ADAUGARE_ADRESE_STIVE", iar pe urma aplicam functia "MOVE_RIGHT"
+	-->Dca avem comanda MOVE_LEFT_CHAR "X" , pentru inceput retinem ultimul caracter din instructiunea exstrasa din coada , iar pe urma putem aplica comanda "MOVE_L_CHAR", care cauta caracterul "X" incepand de la deget spre staanga, daca nu-l gaseste afiseaza "ERROR" si degetul ramane la aceeasi pozitie
+	-->Daca avem comanda MOVE_RIGHT_CHAR "X", urmam aceasi pasi ca la move_left_char, dar cand aplicam functia "MOVE_R_CHAR", daca nu gaseste caracterul atunci se va actualiza banda punand la sfarsit caracterul "#", banda se va actualiza prin functia "ACTUALIZARE_BANDA"
+  	-->Daca avem comanda INSERT_LEFT "X", pentru inceput nu mai actualizam stivele cu adrese cum am facut la celelalte functii, retinem ultimul caracter din instructiune si aplicam functia "INSERT_LEFT", unde alocam o celula si ii dam valuarea caracterului prin functia "Alocare_celula_lista2" dupa care o adaugam in stanga facand legaturile corespunzatoare, doar daca caracterul din stanga nu este SANTINELA, altfel afiseaza "ERROR".La sfarsit stivele cu adrese de UNDO SI REDO se vor goli
+	-->Daca avem comanda INSERT_RIGHT "X", retinem mai intai caracterul, dupa apelam functia "INSERT_RIGHT", unde alocam celula prin functia "Alocare_celula_lista2" dupa care facem legaturile in functie de pozitia pe care trebuie sa o ia pe banda (in interior sau la sfarsit). La sfarsit se elibereaza cele doua stive
+	-->Daca avem comanda WRITE "X", retinem caracterul pe care trebuie sa-l plasam, aplicam functia "WRITE", unde locul spre care puncteaza degetul va lua valoarea caracterului. Pe urma se elibereaza cele 2 stive.
+	Daca din fisier se primeste comanda SHOW mai intai se actualizeaza banda prin comanda "ACTUALIZARE_BANDA" , pe urma se aplica functia de "SHOW"
+	Daca din fisier se primeste comada SHOW_CURRENT se aplica functia "SHOW_C", care va intoarce caracterul spre care indica degetul
+	Daca se primeste comanda de UNDO se va apela functia "UNDO", unde pentru inceput va introduce in stiva de REDO adresa degetului inainte de a se aplica functia UNDO prin functia "ADAUGARE_ADRESA_STIVE" ,dupa care va extrage din stiva "UNDO" prima adresa si  o va da degetului, pe urma se va elibera celula cu adresa extrasa.
+	Daca se primeste comanda de REDO se va apela functia "REDO",unde se va introduce pt inceput in stiva de UNDO adresa degetului curent, apoi se va extrage de la inceputul stive prima celula si se va da adresa respectiva degetului, a pe urma celula extrasa sa fie eliberata.
+	In rest daca se primesc celelalte comenzi spuse la inceput "MOVE_LEFT/RIGHT, MOVE_LEFT/RIGHT_CHAR X, INSERT_LEFT/RIGHT, WRITE", ele vor fi introduse in coada prin intermediul functiei "Introducere_ele_coada". 
+
+	La sfarsit se va afisa tot ce este nevoie in fisierul "tema.out" si se vor distruge banda, coada si stivele.
+	
+	NOTA LUATA LA CHECKERUL LOCAL 120 PUNCTE (cu tot cu valgrind)
